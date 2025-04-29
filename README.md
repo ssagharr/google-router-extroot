@@ -71,7 +71,7 @@ Open the UUID menu and select "match by UUID". This will add the Label option.
 
 Open the Label menu, select extroot (/dev/mmcblk0p3, 3... GiB), check "Enabled", and save.
 
-⚡ Finally, reboot the device.
+⚡ Finally, reboot the device again.
 
 ✔️ Once all steps are complete, you can proceed to install packages such as Passwall... Managers and make desired changes. From now on, whenever you update OpenWrt, simply reinstall the prerequisite packages (step 1) and reboot the router. All installed packages and their settings will remain intact, exactly as before the update.
 
