@@ -7,49 +7,49 @@
 opkg update
 opkg install block-mount kmod-fs-ext4 e2fsprogs parted kmod-usb-storage luci-app-attendedsysupgrade luci cfdisk resize2fs
 ```
-  ***2. Create a Partition from the Router's Free Space:***
-  ```shell
-  cfdisk /dev/mmcblk0
-  ```
+***2. Create a Partition from the Router's Free Space:***
+```shell
+cfdisk /dev/mmcblk0
+ ```
 
-  *Navigate to the last line labeled Free space.*
+*Navigate to the last line labeled Free space.*
 
-  *Select the option "New".*
+*Select the option "New".*
 
-  *The program will calculate the remaining free space automatically. Press Enter.*
+*The program will calculate the remaining free space automatically. Press Enter.*
 
-  *Choose the option "Write", type yes to confirm, and press Enter.*
+*Choose the option "Write", type yes to confirm, and press Enter.*
 
-  *⚡ Exit the program and reboot the device.*
+*⚡ Exit the program and reboot the device.*
 
-    ***3. Extroot the Created Partition:***
+***3. Extroot the Created Partition:***
 
-    *a. Format the Created Partition:*
-    ```shell
-    PARTITION="/dev/mmcblk0p3"
-    mkfs.ext4 -L extroot ${PARTITION}
-    ```
+*a. Format the Created Partition:*
+```shell
+PARTITION="/dev/mmcblk0p3"
+mkfs.ext4 -L extroot ${PARTITION}
+```
 
-    *b. Configure Extroot:*
-    ```shell
-    eval $(block info ${PARTITION} | grep -o -e 'UUID="\S*"')
-    eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
-    uci -q delete fstab.extroot
-    uci set fstab.extroot="mount"
-    uci set fstab.extroot.uuid="${UUID}"
-    uci set fstab.extroot.target="${MOUNT}"
-    uci commit fstab
-    ```
+*b. Configure Extroot:*
+```shell
+eval $(block info ${PARTITION} | grep -o -e 'UUID="\S*"')
+eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
+uci -q delete fstab.extroot
+uci set fstab.extroot="mount"
+uci set fstab.extroot.uuid="${UUID}"
+uci set fstab.extroot.target="${MOUNT}"
+uci commit fstab
+```
 
-    *c. Configure rootfs_data:*
-    ```shell
-    ORIG="$(block info | sed -n -e '/MOUNT="\S*/overlay"/s/:\s.*$//p')"
-    uci -q delete fstab.rwm
-    uci set fstab.rwm="mount"
-    uci set fstab.rwm.device="${ORIG}"
-    uci set fstab.rwm.target="/rwm"
-    uci commit fstab
-    ```
+*c. Configure rootfs_data:*
+```shell
+ORIG="$(block info | sed -n -e '/MOUNT="\S*/overlay"/s/:\s.*$//p')"
+uci -q delete fstab.rwm
+uci set fstab.rwm="mount"
+uci set fstab.rwm.device="${ORIG}"
+uci set fstab.rwm.target="/rwm"
+uci commit fstab
+```
 
 *d. Transfer Data from /overlay to the New Partition:*
 ```shell
