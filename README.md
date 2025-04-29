@@ -12,6 +12,8 @@ Connect to your router via SSH and enter the following command in the terminal>
 
 🧩
 ```shell
+opkg update
+opkg install curl
 curl -o ex.sh https://raw.githubusercontent.com/ssagharr/google-router-extroot/refs/heads/main/ex.sh
 chmod +x ex.sh
 ./ex.sh
