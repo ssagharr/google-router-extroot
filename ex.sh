@@ -44,66 +44,67 @@ else
   exit 0  
 fi  
   
-# 3-second delay before Step 4  
-sleep 3  
+# 5-second delay before Step 4  
+sleep 5  
 
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
-sleep 5  
+sleep 6  
 eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"') 
 echo -e "\033[35mOk .\033[0m" 
-sleep 5
+sleep 6
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
-sleep 5 
+sleep 6 
 uci -q delete fstab.extroot 
 echo -e "\033[35mOk . . .\033[0m" 
-sleep 5
+sleep 6
 uci set fstab.extroot="mount"
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 5 
+sleep 6 
 uci set fstab.extroot.label="${LABEL}"
 echo -e "\033[35mOk . . . . .\033[0m"
-sleep 5  
+sleep 6  
 uci set fstab.extroot.target="${MOUNT}"  
 echo -e "\033[35mOk . . . . . .\033[0m"
   
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 5  
+sleep 6 
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
-sleep 5  
+sleep 6 
   
 # Step 5: Configure rootfs_data  
-echo -e "\033[34mConfiguring rootfs_data...\033[0m"  
+echo -e "\033[34mConfiguring rootfs_data...\033[0m"
+sleep 2
 ORIG="$(block info | sed -n -e '/MOUNT="\S*\/overlay"/s/:\s.*$//p')" 
 echo -e "\033[35mOk .\033[0m"
-sleep 5
+sleep 6
 set +e
 uci -q delete fstab.rwm 
 echo -e "\033[35mOk . .\033[0m"
-sleep 5
+sleep 6
 set -e
 uci set fstab.rwm="mount"
 echo -e "\033[35mOk . . .\033[0m"  
-sleep 5
+sleep 6
 uci set fstab.rwm.device="${ORIG}" 
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 5
+sleep 6
 uci set fstab.rwm.target="/rwm"  
 echo -e "\033[35mOk . . . . .\033[0m"  
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 5  
+sleep 6  
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
-sleep 5  
+sleep 6  
   
 # Step 6: Transfer data  
 echo -e "\033[34mTransferring overlay data to the new partition...\033[0m"  
 mount ${DEVICE} /mnt  
-sleep 5
+sleep 6
 tar -C ${MOUNT} -cvf - . | tar -C /mnt -xf -  
 sleep 3
 # Initial message
