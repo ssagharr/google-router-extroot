@@ -46,7 +46,8 @@ fi
   
 # 5-second delay before Step 4  
 sleep 5  
-
+sync
+echo 3 > /proc/sys/vm/drop_caches
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
 sleep 6  
