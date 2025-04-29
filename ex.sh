@@ -32,7 +32,7 @@ if [ "$answer" = "y" ]; then
 else  
   echo -e "\033[35mSkipping partition creation.\033[0m"  
 fi  
-  
+  sleep 5
 # Step 3: Format the new partition  
 echo -e "\033[1;33mDo you want to format the new partition? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"  
 read -r answer  
@@ -50,32 +50,37 @@ sleep 5
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
 #set +e
-sleep 9  
-eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"') 
+sleep 5  
+eval $(block info ${DEVICE} | grep -o -e 'UUID="\S*"') 
+sleep 5
+eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"')
+sleep 5
 echo -e "\033[35mOk .\033[0m" 
-sleep 9
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
-sleep 9 
+sleep 5 
 uci -q delete fstab.extroot 
 echo -e "\033[35mOk . . .\033[0m" 
-sleep 9
+sleep 5
 uci set fstab.extroot="mount"
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 9 
+sleep 5
+uci set fstab.extroot.uuid="${UUID}"
+sleep 5
 uci set fstab.extroot.label="${LABEL}"
+sleep 5
 echo -e "\033[35mOk . . . . .\033[0m"
-sleep 9  
+sleep 5  
 uci set fstab.extroot.target="${MOUNT}"  
 echo -e "\033[35mOk . . . . . .\033[0m"
   
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 9 
+sleep 7 
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
 #set -e
-sleep 9 
+sleep 7 
   
 # Step 5: Configure rootfs_data  
 echo -e "\033[34mConfiguring rootfs_data...\033[0m"
