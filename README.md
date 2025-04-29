@@ -2,124 +2,75 @@
 
 ⚠️ Note: To achieve the desired results, the Google router must be in its factory state, and the memory expansion process should not have been performed previously.
 
-1. Install Prerequisite Packages:
-shell
-Copy
-Edit
+***1. Install Prerequisite Packages:***
+```shell
 opkg update
 opkg install block-mount kmod-fs-ext4 e2fsprogs parted kmod-usb-storage luci-app-attendedsysupgrade luci cfdisk resize2fs
-2. Create a Partition from the Router's Free Space
-Run the following command and follow the steps:
+```
+  ***2. Create a Partition from the Router's Free Space:***
+  ```shell
+  cfdisk /dev/mmcblk0
+  ```
 
-shell
-Copy
-Edit
-cfdisk /dev/mmcblk0
-Steps:
+  *Navigate to the last line labeled Free space.*
 
-a: Navigate to the last line labeled Free space.
+  *Select the option "New".*
 
-b: Select the option New.
+  *The program will calculate the remaining free space automatically. Press Enter.*
 
-c: The program will automatically calculate the remaining free space. Simply press Enter.
+  *Choose the option "Write", type yes to confirm, and press Enter.*
 
-d: Choose the option Write, type yes to confirm, and press Enter.
+  *⚡ Exit the program and reboot the device.*
 
-⚡️ Exit the program and reboot the device.
+    ***3. Extroot the Created Partition:***
 
-3. Extroot the Created Partition
-⚠️ Important:
-All extroot commands must be copied and executed line by line.
+    *a. Format the Created Partition:*
+    ```shell
+    PARTITION="/dev/mmcblk0p3"
+    mkfs.ext4 -L extroot ${PARTITION}
+    ```
 
-a. Format the Created Partition:
+    *b. Configure Extroot:*
+    ```shell
+    eval $(block info ${PARTITION} | grep -o -e 'UUID="\S*"')
+    eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
+    uci -q delete fstab.extroot
+    uci set fstab.extroot="mount"
+    uci set fstab.extroot.uuid="${UUID}"
+    uci set fstab.extroot.target="${MOUNT}"
+    uci commit fstab
+    ```
 
-shell
-Copy
-Edit
-PARTITION="/dev/mmcblk0p3"
-shell
-Copy
-Edit
-mkfs.ext4 -L extroot ${PARTITION}
-b. Configure Extroot:
+    *c. Configure rootfs_data:*
+    ```shell
+    ORIG="$(block info | sed -n -e '/MOUNT="\S*/overlay"/s/:\s.*$//p')"
+    uci -q delete fstab.rwm
+    uci set fstab.rwm="mount"
+    uci set fstab.rwm.device="${ORIG}"
+    uci set fstab.rwm.target="/rwm"
+    uci commit fstab
+    ```
 
-shell
-Copy
-Edit
-eval $(block info ${PARTITION} | grep -o -e 'UUID="\S*"')
-shell
-Copy
-Edit
-eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
-shell
-Copy
-Edit
-uci -q delete fstab.extroot
-shell
-Copy
-Edit
-uci set fstab.extroot="mount"
-shell
-Copy
-Edit
-uci set fstab.extroot.uuid="${UUID}"
-shell
-Copy
-Edit
-uci set fstab.extroot.target="${MOUNT}"
-shell
-Copy
-Edit
-uci commit fstab
-c. Configure rootfs_data:
-
-shell
-Copy
-Edit
-ORIG="$(block info | sed -n -e '/MOUNT="\S*\/overlay"/s/:\s.*$//p')"
-shell
-Copy
-Edit
-uci -q delete fstab.rwm
-shell
-Copy
-Edit
-uci set fstab.rwm="mount"
-shell
-Copy
-Edit
-uci set fstab.rwm.device="${ORIG}"
-shell
-Copy
-Edit
-uci set fstab.rwm.target="/rwm"
-shell
-Copy
-Edit
-uci commit fstab
-d. Transfer /overlay Data to the New Partition:
-
-shell
-Copy
-Edit
+*d. Transfer Data from /overlay to the New Partition:*
+```shell
 mount ${PARTITION} /mnt
-shell
-Copy
-Edit
 tar -C ${MOUNT} -cvf - . | tar -C /mnt -xf -
-⚡️ Reboot the router after completing these steps.
+```
 
-4. Configure Mount Points
-a: Access the user interface via a browser and navigate to:
-LuCI → System → Mount Points
+*⚡ Reboot the router after completing these steps.*
 
-b: In the Mount Points section, find the path /overlay and click Edit.
+      ***4. Configure Mount Points:***
+Access the user interface via a browser and navigate to: LuCI → System → Mount Points.
 
-c: In the new page, open the UUID menu and select match by UUID. This will add the Label option.
+In the Mount Points section, find the path /overlay and click "Edit".
 
-d: Open the Label menu, select extroot (/dev/mmcblk0p3, 3... GiB), check Enabled, and save.
+Open the UUID menu and select "match by UUID". This will add the Label option.
 
-⚡️ Finally, reboot the device.
+Open the Label menu, select extroot (/dev/mmcblk0p3, 3... GiB), check "Enabled", and save.
 
-✔️ Final Steps
-Once all steps are complete, you can proceed to install packages such as Passwall... Managers and make desired changes. From now on, whenever you update OpenWrt, simply reinstall the prerequisite packages (step 1) and reboot the router. All installed packages and their settings will remain intact, exactly as before the update.
+⚡ Finally, reboot the device.
+
+✔️ Once all steps are complete, you can proceed to install packages such as Passwall... Managers and make desired changes. From now on, whenever you update OpenWrt, simply reinstall the prerequisite packages (step 1) and reboot the router. All installed packages and their settings will remain intact, exactly as before the update.
+
+
+
