@@ -46,37 +46,36 @@ fi
   
 # 5-second delay before Step 4  
 sleep 5  
-sync
-echo 3 > /proc/sys/vm/drop_caches
+
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
-set +e
-sleep 6  
+#set +e
+sleep 9  
 eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"') 
 echo -e "\033[35mOk .\033[0m" 
-sleep 6
+sleep 9
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
-sleep 6 
+sleep 9 
 uci -q delete fstab.extroot 
 echo -e "\033[35mOk . . .\033[0m" 
-sleep 6
+sleep 9
 uci set fstab.extroot="mount"
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 6 
+sleep 9 
 uci set fstab.extroot.label="${LABEL}"
 echo -e "\033[35mOk . . . . .\033[0m"
-sleep 6  
+sleep 9  
 uci set fstab.extroot.target="${MOUNT}"  
 echo -e "\033[35mOk . . . . . .\033[0m"
   
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 6 
+sleep 9 
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
-set -e
-sleep 6 
+#set -e
+sleep 9 
   
 # Step 5: Configure rootfs_data  
 echo -e "\033[34mConfiguring rootfs_data...\033[0m"
