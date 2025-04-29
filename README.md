@@ -60,6 +60,7 @@ tar -C ${MOUNT} -cvf - . | tar -C /mnt -xf -
 *⚡ Reboot the router after completing these steps.*
 
 ***4. Configure Mount Points:***
+
 Access the user interface via a browser and navigate to: LuCI → System → Mount Points.
 
 In the Mount Points section, find the path /overlay and click "Edit".
