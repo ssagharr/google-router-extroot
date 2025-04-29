@@ -4,6 +4,23 @@
 
 ⚠️ Note: To achieve the desired results, the Google router must be in its factory state, and the memory expansion process should not have been performed previously.
 
+➡️ To achieve this purpose, there are two approaches:
+
+✅️ ***First, The easy solution (recommended)***
+
+Connect to your router via SSH and enter the following command in the terminal>
+
+🧩
+```shell
+curl -o ex.sh https://raw.githubusercontent.com/ssagharr/google-router-extroot/refs/heads/main/ex.sh
+chmod +x ex.sh
+./ex.sh
+
+```
+
+
+❎***Second, The more challenging solution***
+
 ***1. Install Prerequisite Packages:***
 ```shell
 opkg update
