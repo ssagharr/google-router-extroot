@@ -50,6 +50,7 @@ sync
 echo 3 > /proc/sys/vm/drop_caches
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
+set +e
 sleep 6  
 eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"') 
 echo -e "\033[35mOk .\033[0m" 
@@ -74,19 +75,19 @@ echo -e "\033[1;36mCommitting changes to fstab...\033[0m"
 sleep 6 
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
+set -e
 sleep 6 
   
 # Step 5: Configure rootfs_data  
 echo -e "\033[34mConfiguring rootfs_data...\033[0m"
+set +e
 sleep 2
 ORIG="$(block info | sed -n -e '/MOUNT="\S*\/overlay"/s/:\s.*$//p')" 
 echo -e "\033[35mOk .\033[0m"
 sleep 6
-set +e
 uci -q delete fstab.rwm 
 echo -e "\033[35mOk . .\033[0m"
 sleep 6
-set -e
 uci set fstab.rwm="mount"
 echo -e "\033[35mOk . . .\033[0m"  
 sleep 6
@@ -99,7 +100,8 @@ echo -e "\033[35mOk . . . . .\033[0m"
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
 sleep 6  
 uci commit fstab  
-echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
+echo -e "\033[1;36mChanges committed to fstab.\033[0m"
+set -e
 sleep 6  
   
 # Step 6: Transfer data  
