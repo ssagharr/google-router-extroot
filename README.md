@@ -1,3 +1,5 @@
+# google-router-extroot
+# [Check the tutorial on Telegram](https://t.me/iranwrt/43382/97058)
 🔽🔽 Tutorial for Partitioning the Free Space on a Google Router and Extroot Configuration to Preserve Installed Packages and Settings After Updating OpenWrt, Plus Backup and Restore Partition (Next Tutorial) 🔽🔽
 
 ⚠️ Note: To achieve the desired results, the Google router must be in its factory state, and the memory expansion process should not have been performed previously.
