@@ -27,7 +27,7 @@ read -r answer
 if [ "$answer" = "y" ]; then  
   echo -e "\033[34mCreating a new partition for extroot...\033[0m"  
   # Variables
-DISK="/dev/mmcblk0"
+#DISK="/dev/mmcblk0"
 sleep 3
   parted -s ${DISK} -- mkpart extroot 247808s -2048s  
 else  
@@ -40,7 +40,7 @@ read -r answer
 if [ "$answer" = "y" ]; then  
   echo -e "\033[34mFormatting the new partition...\033[0m" 
   # Variables
-DEVICE="${DISK}p3"
+#DEVICE="${DISK}p3"
 sleep 3
   mkfs.ext4 -L extroot ${DEVICE}  
 else  
