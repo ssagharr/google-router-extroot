@@ -11,9 +11,7 @@ if [ "$answer" != "y" ]; then
   echo -e "\033[31mExiting the script.\033[0m"  
   exit 0  
 fi  
-# Variables
-DISK="/dev/mmcblk0"
-DEVICE="${DISK}p3"
+
   
 # 3-second delay before Step 1  
 sleep 3  
@@ -45,8 +43,11 @@ else
 fi  
   
 # 5-second delay before Step 4  
-sleep 5  
-
+sleep 5 
+# Variables
+DISK="/dev/mmcblk0"
+DEVICE="${DISK}p3"
+sleep 3
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
 sleep 5  
