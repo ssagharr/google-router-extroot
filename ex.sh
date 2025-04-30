@@ -52,8 +52,8 @@ echo -e "\033[34mConfiguring extroot...\033[0m"
 sleep 5  
 eval $(block info ${DEVICE} | grep -o -e 'UUID="\S*"') 
 sleep 5
-eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"')
-sleep 5
+#eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"')
+#sleep 5
 echo -e "\033[35mOk .\033[0m" 
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
@@ -69,8 +69,8 @@ echo -e "\033[35mOk . . . .\033[0m"
 sleep 5
 uci set fstab.extroot.uuid="${UUID}"
 sleep 5
-uci set fstab.extroot.label="${LABEL}"
-sleep 5
+#uci set fstab.extroot.label="${LABEL}"
+#sleep 5
 echo -e "\033[35mOk . . . . .\033[0m"
 sleep 5  
 uci set fstab.extroot.target="${MOUNT}"  
