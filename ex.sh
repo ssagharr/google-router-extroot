@@ -21,7 +21,7 @@ sleep 3
 # Step 1: Install required packages  
 echo -e "\033[34mUpdating and installing required packages...\033[0m"  
 opkg update  
-opkg install block-mount kmod-fs-ext4 e2fsprogs parted kmod-usb-storage luci-app-attendedsysupgrade luci cfdisk resize2fs ncat pv gzip  coreutils-dd coreutils-mv openssh-sftp-server lsblk
+opkg install block-mount kmod-fs-ext4 e2fsprogs parted kmod-usb-storage cfdisk resize2fs ncat pv gzip  coreutils-dd coreutils-mv openssh-sftp-server lsblk #luci-app-attendedsysupgrade luci
   
 # Step 2: Create new partition  
 echo -e "\033[1;33mDo you want to create a new partition for extroot? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"  
