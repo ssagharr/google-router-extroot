@@ -65,7 +65,7 @@ echo -e "\033[1;36mCommitting changes to fstab...\033[0m"
 sleep 2
 uci commit fstab 
 sleep 2
-echo -e "\035[1;36mChanges committed to fstab.\033[0m"
+echo -e "\033[35mChanges committed to fstab.\033[0m"
 sleep 2
 
 # Step 5: Transfer data  
