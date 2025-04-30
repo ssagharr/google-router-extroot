@@ -57,12 +57,12 @@ sleep 5
 echo -e "\033[35mOk .\033[0m" 
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
-set +e
+#set +e
 sleep 5
 uci -q delete fstab.extroot
 echo -e "\033[35mOk . . .\033[0m" 
 sleep 3
-set -e
+#set -e
 sleep 3
 uci set fstab.extroot="mount"
 echo -e "\033[35mOk . . . .\033[0m"
