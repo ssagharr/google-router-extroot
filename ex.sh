@@ -1,6 +1,8 @@
 #!/bin/sh  
 set -e  # Exit immediately if a command exits with a non-zero status  
-  
+# Variables
+DISK="/dev/mmcblk0"
+DEVICE="${DISK}p3"  
 
 # Script Introduction  
 echo -e "\033[1;36mThis script is developed by ssagharr for the \033[1;34mGoogle Wifi AC-1304\033[1;36m \033[32mOpenWRT\033[1;36m devices.\033[0m"  
@@ -50,7 +52,9 @@ fi
   
 # 5-second delay before Step 4  
 sleep 5 
-
+# Variables
+DISK="/dev/mmcblk0"
+DEVICE="${DISK}p3"
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
 sleep 5  
