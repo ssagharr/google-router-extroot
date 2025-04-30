@@ -29,7 +29,7 @@ echo -e "\033[1;33mDo you want to create a new partition for extroot? [\033[32my
 read -r answer  
 if [ "$answer" = "y" ]; then  
   echo -e "\033[34mCreating a new partition for extroot...\033[0m"  
-  parted -s ${DISK} -- mkpart gpt extroot 247808s -2048s  
+  parted -s ${DISK} -- mklabel gpt mkpart extroot 247808s -2048s  
 else  
   echo -e "\033[35mSkipping partition creation.\033[0m"  
 fi  
