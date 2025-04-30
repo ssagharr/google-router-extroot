@@ -26,6 +26,9 @@ echo -e "\033[1;33mDo you want to create a new partition for extroot? [\033[32my
 read -r answer  
 if [ "$answer" = "y" ]; then  
   echo -e "\033[34mCreating a new partition for extroot...\033[0m"  
+  # Variables
+DISK="/dev/mmcblk0"
+sleep 3
   parted -s ${DISK} -- mkpart extroot 247808s -2048s  
 else  
   echo -e "\033[35mSkipping partition creation.\033[0m"  
@@ -35,7 +38,10 @@ fi
 echo -e "\033[1;33mDo you want to format the new partition? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"  
 read -r answer  
 if [ "$answer" = "y" ]; then  
-  echo -e "\033[34mFormatting the new partition...\033[0m"  
+  echo -e "\033[34mFormatting the new partition...\033[0m" 
+  # Variables
+DEVICE="${DISK}p3"
+sleep 3
   mkfs.ext4 -L extroot ${DEVICE}  
 else  
   echo -e "\033[31mSkipping partition formatting and exiting.\033[0m"  
@@ -44,10 +50,7 @@ fi
   
 # 5-second delay before Step 4  
 sleep 5 
-# Variables
-DISK="/dev/mmcblk0"
-DEVICE="${DISK}p3"
-sleep 3
+
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
 sleep 5  
@@ -55,27 +58,27 @@ eval $(block info ${DEVICE} | grep -o -e 'UUID="\S*"')
 sleep 5
 #eval $(block info ${DEVICE} | grep -o -e 'LABEL="\S*"')
 #sleep 5
-echo -e "\033[35mOk .\033[0m" 
+#echo -e "\033[35mOk .\033[0m" 
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
-echo -e "\033[35mOk . .\033[0m" 
+#echo -e "\033[35mOk . .\033[0m" 
 #set +e
 sleep 5
 uci -q delete fstab.extroot
-echo -e "\033[35mOk . . .\033[0m" 
+#echo -e "\033[35mOk . . .\033[0m" 
 sleep 3
 #set -e
 sleep 3
 uci set fstab.extroot="mount"
-echo -e "\033[35mOk . . . .\033[0m"
+#echo -e "\033[35mOk . . . .\033[0m"
 sleep 5
 uci set fstab.extroot.uuid="${UUID}"
 sleep 5
 #uci set fstab.extroot.label="${LABEL}"
 #sleep 5
-echo -e "\033[35mOk . . . . .\033[0m"
+#echo -e "\033[35mOk . . . . .\033[0m"
 sleep 5  
 uci set fstab.extroot.target="${MOUNT}"  
-echo -e "\033[35mOk . . . . . .\033[0m"
+#echo -e "\033[35mOk . . . . . .\033[0m"
   
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
