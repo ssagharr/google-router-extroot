@@ -1,10 +1,5 @@
 #!/bin/sh         
 set -e  # Exit immediately if a command exits with a non-zero status  
-set -x
-# Display current environment variables
-echo -e "\033[1;36mDisplaying environment variables:\033[0m"
-env
-echo -e "\033[1;36mEnd of environment variables display\033[0m"
 
 # Script Introduction
 echo -e "\033[1;36mThis script is developed for the \033[1;34mGoogle Wifi AC-1304\033[1;36m \033[32mOpenWRT\033[1;36m devices.\033[0m"
