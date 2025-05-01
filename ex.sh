@@ -100,25 +100,6 @@ uci commit fstab
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
 sleep 5  
 
-# Step 6: Configure fstab
-sed -i '10,$d' /etc/config/fstab
-echo -e "config mount
-\toption target '/overlay'
-\toption enabled '1'
-\toption label 'extroot'
-
-config mount
-\toption target '/rom'
-\toption uuid '38c95c18-36d8edec-99a44003-23203cc7'
-\toption enabled '0'" >> /etc/config/fstab
-
-sleep 2  
-echo -e "\033[1;36mCommitting changes to fstab...\033[0m" 
-sleep 2
-block mount 
-sleep 2
-echo -e "\033[35mChanges committed to fstab.\033[0m"
-sleep 2
 set -e
 # Step 7: Transfer data  
 echo -e "\033[1;33mDo you want to transfer data? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"  
