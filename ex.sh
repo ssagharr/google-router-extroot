@@ -1,6 +1,6 @@
 #!/bin/sh         
 set -e  # Exit immediately if a command exits with a non-zero status  
-
+set -x
 # Script Introduction
 echo -e "\033[1;36mThis script is developed for the \033[1;34mGoogle Wifi AC-1304\033[1;36m \033[32mOpenWRT\033[1;36m devices.\033[0m"
 echo -e "\033[1;36mIt will configure extroot to expand the storage by using the free space on the internal storage to create an extra partition for overlay data.\033[0m"
@@ -41,12 +41,12 @@ if [ "$answer" = "y" ]; then
   mkfs.ext4 -L extroot ${DEVICE}
 else
   echo -e "\033[31mSkipping partition formatting and exiting.\033[0m"
-  exit 0
+ # exit 0
 fi
 
 # 3-second delay before Step 4
 sleep 3
-set +e
+
 
 # Step 4: Configure extroot
 echo -e "\033[34mConfiguring extroot...\033[0m"
@@ -99,15 +99,24 @@ uci commit fstab
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"
 sleep 15
 
-set -e
-# Step 7: Transfer data
+# Step 7: mount
+echo -e "\033[1;33mDo you want to mount? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"
+read -r answer
+if [ "$answer" = "y" ]; then
+  echo -e "\033[34mmount...\033[0m"
+  sleep 2
+  mount ${DEVICE} /mnt
+  sleep 15
+else
+  echo -e "\033[31mSkipping mount.\033[0m"
+fi
+# Step 8: Transfer data
 echo -e "\033[1;33mDo you want to transfer data? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"
 read -r answer
 if [ "$answer" = "y" ]; then
   echo -e "\033[34mtransferring data...\033[0m"
-  sleep 2
-  mount ${DEVICE} /mnt
-  sleep 15
+  
+  sleep 10
   tar -C ${MOUNT} -cvf - . | tar -C /mnt -xf -
   sleep 10
 else
@@ -133,7 +142,7 @@ echo -e "\033[32m>>>>>>>>>>>DONE!\033[0m"
 # 2-second delay before Step 8
 sleep 2
 
-# Step 8: Reboot to apply changes
+# Step 9: Reboot to apply changes
 echo -e "\033[1;33mDo you want to reboot the device to apply changes? [\033[32my\033[0m/\033[31mn\033[0m]\033[0m"
 read -r answer
 if [ "$answer" = "y" ]; then
