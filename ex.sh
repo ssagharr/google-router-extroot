@@ -57,7 +57,7 @@ sleep 15
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m"
 sleep 15
-uci delete fstab.extroot
+#uci delete fstab.extroot
 echo -e "\033[35mOk . . .\033[0m"
 sleep 15
 uci set fstab.extroot="mount"
@@ -81,7 +81,7 @@ echo -e "\033[34mConfiguring rootfs_data...\033[0m"
 ORIG="$(block info | sed -n -e '/MOUNT="\S*\/overlay"/s/:\s.*$//p')"
 echo -e "\033[35mOk .\033[0m"
 sleep 15
-uci -q delete fstab.rwm
+#uci -q delete fstab.rwm
 echo -e "\033[35mOk . .\033[0m"
 sleep 15
 uci set fstab.rwm="mount"
