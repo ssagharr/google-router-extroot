@@ -49,56 +49,54 @@ sleep 3
 set +e
 # Step 4: Configure extroot  
 echo -e "\033[34mConfiguring extroot...\033[0m"
-sleep 3  
+sleep 15  
 eval $(block info ${DEVICE} | grep -o -e 'UUID="\S*"') 
 echo -e "\033[35mOk .\033[0m" 
-sleep 3
+sleep 15
 eval $(block info | grep -o -e 'MOUNT="\S*/overlay"')
 echo -e "\033[35mOk . .\033[0m" 
-sleep 3 
+sleep 15
 uci -q delete fstab.extroot 
 echo -e "\033[35mOk . . .\033[0m" 
-sleep 3
+sleep 15
 uci set fstab.extroot="mount"
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 3 
+sleep 15 
 uci set fstab.extroot.uuid="${UUID}"
 echo -e "\033[35mOk . . . . .\033[0m"
-sleep 3  
+sleep 15  
 uci set fstab.extroot.target="${MOUNT}"  
 echo -e "\033[35mOk . . . . . .\033[0m"
   
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 5  
+sleep 15 
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
-sleep 5  
+sleep 15  
   
 # Step 5: Configure rootfs_data  
 echo -e "\033[34mConfiguring rootfs_data...\033[0m"  
 ORIG="$(block info | sed -n -e '/MOUNT="\S*\/overlay"/s/:\s.*$//p')" 
 echo -e "\033[35mOk .\033[0m"
-sleep 3
-set +e
+sleep 15
 uci -q delete fstab.rwm 
 echo -e "\033[35mOk . .\033[0m"
-sleep 3
-set -e
+sleep 15
 uci set fstab.rwm="mount"
 echo -e "\033[35mOk . . .\033[0m"  
-sleep 3
+sleep 15
 uci set fstab.rwm.device="${ORIG}" 
 echo -e "\033[35mOk . . . .\033[0m"
-sleep 3
+sleep 15
 uci set fstab.rwm.target="/rwm"  
 echo -e "\033[35mOk . . . . .\033[0m"  
 # Adding delay around uci commit fstab  
 echo -e "\033[1;36mCommitting changes to fstab...\033[0m"  
-sleep 5  
+sleep 15  
 uci commit fstab  
 echo -e "\033[1;36mChanges committed to fstab.\033[0m"  
-sleep 5  
+sleep 15 
 
 set -e
 # Step 7: Transfer data  
@@ -108,9 +106,9 @@ if [ "$answer" = "y" ]; then
   echo -e "\033[34mtransfering data...\033[0m" 
 sleep 2 
 mount ${DEVICE} /mnt  
-sleep 5
+sleep 15
 tar -C ${MOUNT} -cvf - . | tar -C /mnt -xf -  
-sleep 3  
+sleep 10  
 else  
   echo -e "\033[31mSkipping transfer data and exiting.\033[0m"  
   exit 0  
