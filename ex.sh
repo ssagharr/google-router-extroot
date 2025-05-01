@@ -13,7 +13,7 @@ fi
 
 # Variables
 DISK="/dev/mmcblk0"
-DEVICE="${DISK}p3"
+DEVICE="/dev/mmcblk0p3"
 
 # 3-second delay before Step 1
 sleep 3
